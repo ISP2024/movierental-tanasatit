@@ -11,7 +11,7 @@ def make_movies():
     movies = [
         Movie("Air", Movie.NEW_RELEASE),
         Movie("Oppenheimer", Movie.REGULAR),
-        Movie("Frozen", Movie.CHILDRENS),
+        Movie("Frozen", Movie.CHILDREN),
         Movie("Bitconned", Movie.NEW_RELEASE),
         Movie("Particle Fever", Movie.REGULAR)
     ]

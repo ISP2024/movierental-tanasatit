@@ -9,7 +9,7 @@ class RentalTest(unittest.TestCase):
     def setUp(self):
         self.new_movie = Movie("Dune: Part Two", Movie.NEW_RELEASE)
         self.regular_movie = Movie("Air", Movie.REGULAR)
-        self.childrens_movie = Movie("Frozen", Movie.CHILDRENS)
+        self.children_movie = Movie("Frozen", Movie.CHILDREN)
 
     def test_movie_attributes(self):
         """trivial test to catch refactoring errors or change in API of Movie"""
@@ -28,3 +28,20 @@ class RentalTest(unittest.TestCase):
     @unittest.skip("add this test of rental points when you add it to Rental")
     def test_rental_points(self):
         self.fail("add this test of frequent renter points")
+
+    def test_rental_get_price(self):
+        """
+        Test get_price calculates correct rental price
+        based on movie type and rental duration
+        """
+        # regular 0
+        rental = Rental(self.regular_movie, 4)
+        self.assertEqual(rental.get_price(), 5)
+        # new release 1
+        rental = Rental(self.new_movie, 1)
+        self.assertEqual(rental.get_price(), 3)
+        # children 2
+        rental = Rental(self.children_movie, 2)
+        self.assertEqual(rental.get_price(), 1.5)
+
+
