@@ -19,10 +19,18 @@ class CustomerTest(unittest.TestCase):
         self.regular_movie = Movie("CitizenFour", Movie.REGULAR)
         self.children_movie = Movie("Frozen", Movie.CHILDREN)
 
-    @unittest.skip("No convenient way to test")
-    def test_billing():
-        # no convenient way to test billing since its buried in the statement() method.
-        pass
+    def test_billing(self):
+        """ Test total rental price calculation for multiple rentals."""
+        self.c.add_rental(Rental(self.new_movie, 1))
+        self.c.add_rental(Rental(self.regular_movie, 4))
+        self.c.add_rental(Rental(self.children_movie, 3))
+        total_amount = self.c.get_total_amount()
+        self.assertEqual(total_amount, 9.5)
+
+        self.c.add_rental(Rental(self.new_movie, 5))
+        self.c.add_rental(Rental(self.regular_movie, 3))
+        total_amount = self.c.get_total_amount()
+        self.assertEqual(total_amount, 28)
 
     def test_statement(self):
         stmt = self.c.statement()
