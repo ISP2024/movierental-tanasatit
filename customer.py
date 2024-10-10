@@ -60,8 +60,6 @@ class Customer:
         rental_fmt = "{:40s}  {:6d} {:6.2f}\n"
 
         for rental in self.rentals:
-            # compute the frequent renter points based on movie price code
-
             #  add a detail line to statement
             statement += rental_fmt.format(
                 rental.get_movie().get_title(),
