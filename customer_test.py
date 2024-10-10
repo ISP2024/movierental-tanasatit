@@ -19,18 +19,31 @@ class CustomerTest(unittest.TestCase):
         self.regular_movie = Movie("CitizenFour", Movie.REGULAR)
         self.children_movie = Movie("Frozen", Movie.CHILDREN)
 
-    def test_billing(self):
+    def test_total_charge(self):
         """ Test total rental price calculation for multiple rentals."""
         self.c.add_rental(Rental(self.new_movie, 1))
         self.c.add_rental(Rental(self.regular_movie, 4))
         self.c.add_rental(Rental(self.children_movie, 3))
-        total_amount = self.c.get_total_amount()
+        total_amount = self.c.get_total_charge()
         self.assertEqual(total_amount, 9.5)
 
         self.c.add_rental(Rental(self.new_movie, 5))
         self.c.add_rental(Rental(self.regular_movie, 3))
-        total_amount = self.c.get_total_amount()
+        total_amount = self.c.get_total_charge()
         self.assertEqual(total_amount, 28)
+
+    def test_total_rental_points(self):
+        """ Test total rental point calculation for multiple rentals."""
+        self.c.add_rental(Rental(self.new_movie, 1))
+        self.c.add_rental(Rental(self.regular_movie, 4))
+        self.c.add_rental(Rental(self.children_movie, 3))
+        total_point = self.c.get_total_rental_points()
+        self.assertEqual(total_point, 3)
+
+        self.c.add_rental(Rental(self.new_movie, 5))
+        self.c.add_rental(Rental(self.regular_movie, 3))
+        total_point = self.c.get_total_rental_points()
+        self.assertEqual(total_point, 9)
 
     def test_statement(self):
         stmt = self.c.statement()

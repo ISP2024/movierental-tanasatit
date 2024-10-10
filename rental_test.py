@@ -52,8 +52,7 @@ class RentalTest(unittest.TestCase):
             Rental(self.regular_movie, 3)
         ]
 
-        total_points = sum(rental.rental_points() for rental in rentals)
+        total_points = sum(rental.get_rental_points() for rental in rentals)
         self.assertEqual(total_points, 9)
-
 
 

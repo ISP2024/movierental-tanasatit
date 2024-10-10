@@ -24,43 +24,8 @@ class Customer:
     def get_name(self):
         """Get the customer's name."""
         return self.name
-    
-    def statement(self):
-        """Create a statement of rentals for the current period.
 
-        Print all the rentals in the current period, 
-        along with total charges and frequent renter points.
-        
-        Returns:
-            the statement as a String
-        """
-        frequent_renter_points = 0
-
-        # the .format method substitutes actual values into the fmt string
-        statement = f"Rental Report for {self.name}\n\n"
-        header_fmt = "{:40s}  {:6s} {:6s}\n"
-        statement += header_fmt.format("Movie Title", "  Days", " Price")
-        rental_fmt = "{:40s}  {:6d} {:6.2f}\n"
-        
-        for rental in self.rentals:
-            # compute the frequent renter points based on movie price code
-            frequent_renter_points += rental.rental_points()
-
-            #  add a detail line to statement
-            statement += rental_fmt.format(
-                rental.get_movie().get_title(),
-                rental.get_days_rented(),
-                rental.get_price())
-
-        # footer: summary of charges
-        statement += "\n"
-        statement += "{:40s}  {:6s} {:6.2f}\n".format(
-                       "Total Charges", "", self.get_total_amount())
-        statement += "Frequent Renter Points earned: {}\n".format(frequent_renter_points)
-
-        return statement
-
-    def get_total_amount(self):
+    def get_total_charge(self):
         """
         Calculate and return the total rental price.
         Returns: Total price for all rentals.
@@ -71,5 +36,43 @@ class Customer:
 
         return total_amount
 
+    def get_total_rental_points(self):
+        """Calculate and return the frequency of total rental points"""
+        frequent_renter_points = 0
+        for rental in self.rentals:
+            frequent_renter_points += rental.get_rental_points()
 
+        return frequent_renter_points
+
+    def statement(self):
+        """Create a statement of rentals for the current period.
+
+        Print all the rentals in the current period,
+        along with total charges and frequent renter points.
+
+        Returns:
+            the statement as a String
+        """
+        # the .format method substitutes actual values into the fmt string
+        statement = f"Rental Report for {self.name}\n\n"
+        header_fmt = "{:40s}  {:6s} {:6s}\n"
+        statement += header_fmt.format("Movie Title", "  Days", " Price")
+        rental_fmt = "{:40s}  {:6d} {:6.2f}\n"
+
+        for rental in self.rentals:
+            # compute the frequent renter points based on movie price code
+
+            #  add a detail line to statement
+            statement += rental_fmt.format(
+                rental.get_movie().get_title(),
+                rental.get_days_rented(),
+                rental.get_price())
+
+        # footer: summary of charges
+        statement += "\n"
+        statement += "{:40s}  {:6s} {:6.2f}\n".format(
+            "Total Charges", "", self.get_total_charge())
+        statement += "Frequent Renter Points earned: {}\n".format(self.get_total_rental_points())
+
+        return statement
 
