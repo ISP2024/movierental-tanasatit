@@ -1,5 +1,5 @@
 import logging
-from price import *
+from pricing import *
 
 
 class Movie:
@@ -33,9 +33,9 @@ class Movie:
         # get the price code
         return self.price_code
 
-    def get_price(self, days: int) -> float:
+    def get_price(self, days_rented: int) -> float:
         # get the price code
-        return self.price_strategy.get_price(days)
+        return self.price_strategy.get_price(days_rented)
 
     def get_rental_points(self, days: int) -> int:
         return self.price_strategy.get_rental_points(days)
