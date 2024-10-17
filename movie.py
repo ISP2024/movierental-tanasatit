@@ -19,26 +19,19 @@ class Movie:
 
     def set_price_code(self, price_code):
         if price_code == self.REGULAR:
-            self.price_strategy = RegularPrice()
+            self.price_code = RegularPrice()
         elif price_code == self.NEW_RELEASE:
-            self.price_strategy = NewRelease()
+            self.price_code = NewRelease()
         elif price_code == self.CHILDREN:
-            self.price_strategy = ChildrensPrice()
+            self.price_code = ChildrensPrice()
         else:
             log = logging.getLogger()
             log.error(f"Movie {self.title} has unrecognized priceCode {price_code}")
             raise ValueError("Invalid price code")
 
-    def get_price_code(self):
-        # get the price code
-        return self.price_code
-
-    def get_price(self, days_rented: int) -> float:
-        # get the price code
-        return self.price_strategy.get_price(days_rented)
-
-    def get_rental_points(self, days: int) -> int:
-        return self.price_strategy.get_rental_points(days)
+    # def get_price_code(self):
+    #     # get the price code
+    #     return self.price_code
 
     def get_title(self) -> str:
         return self.title
