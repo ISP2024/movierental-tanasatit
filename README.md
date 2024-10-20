@@ -21,9 +21,12 @@ Before and after each refactoring you should **run the unit tests**.
 - **2.2** What design principle suggests this refactoring? Why?
   - Ans: Single Responsible Principle(SRP) Because `Movie` should manage movie details,while `Rental` handles 
     pricing logic.This keeps both classes focused and simple.
+- **5.2** I chose to implement the `price_code_for_movie` method in the `PriceStrategy` class 
+  - **Low Coupling**: `PriceStrategy` minimizes dependencies by keeping pricing logic separate from other classes.
 
+  - **Single Responsibility Principle**: `PriceStrategy` is responsible for all pricing-related logic, including determining price codes.
 
-
+  - **High Cohesion**: The method fits naturally in `PriceStrategy`, maintaining focus on pricing tasks.
 
 
 

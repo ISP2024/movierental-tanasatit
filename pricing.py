@@ -1,12 +1,5 @@
 from abc import ABC, abstractmethod
-from enum import Enum
-
-
-class PriceCode(Enum):
-    REGULAR = 0
-    NEW_RELEASE = 1
-    CHILDREN = 2
-
+from datetime import datetime
 
 class PriceStrategy(ABC):
     """Abstract base class for rental pricing."""
@@ -16,6 +9,17 @@ class PriceStrategy(ABC):
         if cls not in cls._instances:
             cls._instances[cls] = super(PriceStrategy, cls).__new__(cls)
         return cls._instances[cls]
+
+    @classmethod
+    def price_code_for_movie(cls, movie):
+        """Determine the price strategy for a given movie."""
+        current_year = datetime.now().year
+        if movie.year == current_year:
+            return NewRelease()
+        elif any(genre.lower() == "children" or genre.lower() == 'childrens' for genre in movie.genre):
+            return ChildrensPrice()
+        else:
+            return RegularPrice()
 
     @abstractmethod
     def get_price(self, days: int) -> float:
