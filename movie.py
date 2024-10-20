@@ -48,7 +48,7 @@ class MovieCatalog:
             movie = Movie(title, year, genres)
             self._movies.append(movie)
 
-    def get_movie(self, title: str, year: int = None) -> Movie:
+    def get_movie(self, title: str, year: int = None):
         """Return the movie with the given title and optional year."""
         for movie in self._movies:
             if movie.title == title and (year is None or movie.year == year):

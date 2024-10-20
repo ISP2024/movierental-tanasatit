@@ -53,24 +53,24 @@ class Customer:
         Returns:
             the statement as a String
         """
-        # the .format method substitutes actual values into the fmt string
         statement = f"Rental Report for {self.name}\n\n"
         header_fmt = "{:40s}  {:6s} {:6s}\n"
         statement += header_fmt.format("Movie Title", "  Days", " Price")
         rental_fmt = "{:40s}  {:6d} {:6.2f}\n"
 
         for rental in self.rentals:
-            #  add a detail line to statement
             statement += rental_fmt.format(
                 rental.get_movie().get_title(),
                 rental.get_days_rented(),
-                rental.get_price())
+                rental.get_price()
+            )
 
-        # footer: summary of charges
+        # Footer: summary of charges
         statement += "\n"
         statement += "{:40s}  {:6s} {:6.2f}\n".format(
-            "Total Charges", "", self.get_total_charge())
-        statement += "Frequent Renter Points earned: {}\n".format(self.get_total_rental_points())
+            "Total Charges", "", self.get_total_charge()
+        )
+        statement += f"Frequent Renter Points earned: {self.get_total_rental_points()}\n"
 
         return statement
 

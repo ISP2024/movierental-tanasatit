@@ -1,4 +1,11 @@
 from abc import ABC, abstractmethod
+from enum import Enum
+
+
+class PriceCode(Enum):
+    REGULAR = 0
+    NEW_RELEASE = 1
+    CHILDREN = 2
 
 
 class PriceStrategy(ABC):
@@ -58,3 +65,4 @@ class ChildrensPrice(PriceStrategy):
     def get_rental_points(self, days):
         """New release rentals earn 1 point for each day rented."""
         return 1
+

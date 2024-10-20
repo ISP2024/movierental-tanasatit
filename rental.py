@@ -1,31 +1,24 @@
 import logging
-from pricing import *
+from pricing import PriceCode, NewRelease, ChildrensPrice, RegularPrice  # Adjust imports as needed
+import pandas as pd
+from movie import Movie
 
+log = logging.getLogger(__name__)
 
 class Rental:
     """
-    A rental of a movie by customer.
-    From Fowler's refactoring example.
-
-    A realistic Rental would have fields for the dates
-    that the movie was rented and returned, from which the
-    rental period is calculated.
-    For simplicity of this application only days_rented is recorded.
+    A rental of a movie by a customer.
+    This class holds the movie, rental period, and price information.
     """
-    # # The types of movies (price_code).
-    REGULAR = 0
-    NEW_RELEASE = 1
-    CHILDREN = 2
 
-    def __init__(self, movie, days_rented, price_code):
+    def __init__(self, movie: Movie, days: int):
         """
         Initialize a new movie rental object for a movie
-        with known rental period (daysRented).
+        with a known rental period (daysRented).
         """
         self.movie = movie
-        self.days_rented = days_rented
-        self.price_code = price_code
-        self.set_price_code(price_code)
+        self.days_rented = days
+        self.price_code = self.price_code_for_movie(movie)  # Automatically set price code based on the movie
 
     def get_movie(self):
         return self.movie
@@ -33,24 +26,30 @@ class Rental:
     def get_days_rented(self):
         return self.days_rented
 
-    def set_price_code(self, price_code):
-        if price_code == self.REGULAR:
-            self.price_code = RegularPrice()
-        elif price_code == self.NEW_RELEASE:
-            self.price_code = NewRelease()
-        elif price_code == self.CHILDREN:
-            self.price_code = ChildrensPrice()
+    def price_code_for_movie(self, movie: Movie):
+        """Determine the price code for a movie."""
+        current_year = pd.Timestamp.now().year
+        if movie.year == current_year:
+            return PriceCode.NEW_RELEASE
+        elif any(genre.lower() in ["children", "childrens"] for genre in movie.genre):
+            return PriceCode.CHILDREN
         else:
-            log = logging.getLogger()
-            log.error(f"Movie {self.title} has unrecognized priceCode {price_code}")
-            raise ValueError("Invalid price code")
+            return PriceCode.REGULAR
 
     def get_price_code(self):
-        # get the price code
+        # Get the price code
         return self.price_code
 
     def get_price(self) -> float:
-        return self.movie.price_code.get_price(self.days_rented)
+        """Calculate the price of the rental based on the price code."""
+        if self.price_code == PriceCode.REGULAR:
+            return RegularPrice().get_price(self.days_rented)
+        elif self.price_code == PriceCode.NEW_RELEASE:
+            return NewRelease().get_price(self.days_rented)
+        elif self.price_code == PriceCode.CHILDREN:
+            return ChildrensPrice().get_price(self.days_rented)
 
     def get_rental_points(self) -> int:
-        return self.movie.price_code.get_rental_points(self.days_rented)
+        """Calculate the rental points based on the price code."""
+        return self.price_code.get_rental_points(self.days_rented)
+
